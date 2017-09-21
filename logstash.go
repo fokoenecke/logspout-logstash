@@ -275,12 +275,8 @@ func (a *LogstashAdapter) serialize(msg *router.Message) ([]byte, error) {
 		Image:    msg.Container.Config.Image,
 		Hostname: msg.Container.Config.Hostname,
 	}
-	componentInfo := ComponentInfo{
-		Name:    msg.Container.Config.Labels["com.docker.compose.service"],
-		Version: msg.Container.Config.Labels["com.mm.version"],
-		Env:     msg.Container.Config.Labels["com.mm.env"],
-	}
 
+	log.Info("message:", &msg.Data)
 	javaLog, parsedMsg := a.parseJavaMsg(&msg.Data)
 	err := json.Unmarshal([]byte(msg.Data), &jsonMsg)
 	if err != nil {
@@ -288,7 +284,6 @@ func (a *LogstashAdapter) serialize(msg *router.Message) ([]byte, error) {
 		msgToSend := LogstashMessage{
 			Message: *parsedMsg,
 			Docker:  dockerInfo,
-			Component: componentInfo,
 			Stream:  msg.Source,
 			JavaLog: javaLog,
 		}
@@ -303,7 +298,6 @@ func (a *LogstashAdapter) serialize(msg *router.Message) ([]byte, error) {
 		if (javaLog != nil) {
 			jsonMsg["javaLog"] = javaLog
 		}
-		jsonMsg["component"] = componentInfo
 		jsonMsg["message"] = *parsedMsg
 		js, err = json.Marshal(jsonMsg)
 		if err != nil {
