@@ -13,7 +13,7 @@ import (
 	"github.com/gliderlabs/logspout/router"
 	"github.com/rcrowley/go-metrics"
 	"github.com/rcrowley/go-metrics/exp"
-	"github.com/udacity/logspout-logstash/multiline"
+	"github.com/fokoenecke/logspout-logstash/multiline"
 	"strings"
 )
 
