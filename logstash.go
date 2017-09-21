@@ -194,6 +194,7 @@ cacheTicker <-chan time.Time) ([]*router.Message, ControlCode) {
 		return a.expireCache(t), Continue
 	case msg, ok := <-logstream:
 		if ok {
+			log.Println("message:", msg)
 			return a.bufferMessage(msg), Continue
 		} else {
 			return a.flushPendingMessages(), Quit
