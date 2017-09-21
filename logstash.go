@@ -276,7 +276,7 @@ func (a *LogstashAdapter) serialize(msg *router.Message) ([]byte, error) {
 		Hostname: msg.Container.Config.Hostname,
 	}
 
-	log.Println("message:", msg.Data)
+	log.Println("message:", &msg.Data)
 	javaLog, parsedMsg := a.parseJavaMsg(&msg.Data)
 	err := json.Unmarshal([]byte(msg.Data), &jsonMsg)
 	if err != nil {
@@ -390,7 +390,6 @@ type LogstashMessage struct {
 	Message   string      `json:"message"`
 	Stream    string      `json:"stream"`
 	Docker    DockerInfo  `json:"docker"`
-	Component ComponentInfo `json:"component"`
 	JavaLog   *JavaLog `json:"javaLog,omitempty"`
 }
 
