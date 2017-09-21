@@ -276,7 +276,7 @@ func (a *LogstashAdapter) serialize(msg *router.Message) ([]byte, error) {
 		Hostname: msg.Container.Config.Hostname,
 	}
 
-	log.Info("message:", &msg.Data)
+	log.Println("message:", &msg.Data)
 	javaLog, parsedMsg := a.parseJavaMsg(&msg.Data)
 	err := json.Unmarshal([]byte(msg.Data), &jsonMsg)
 	if err != nil {
